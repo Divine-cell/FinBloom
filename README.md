@@ -1,2 +1,179 @@
-# FinBloom
-A 3-tired fintech web application deployed to AWS 
+# FinBloom – 3-Tier Finance Tracker Web Application  
+
+A **cloud-deployed 3-tier finance tracker application** that calculates expenditures based on transactions added.  
+This project demonstrates how to **securely and cost-effectively deploy a web application to AWS** using best practices in **networking, security, and availability**.
+
+## Purpose of the Project  
+
+The goal of this project was not just to build a finance app but to:  
+
+- Gain **hands-on experience** with deploying a 3-tier application on AWS.  
+- Practice **secure network design** with public/private subnets.  
+- Learn **load balancing, HTTPS setup, and DNS management**.  
+- Understand **cost-effective cloud deployment strategies** for businesses.  
+
+## Architecture Overview  
+The project follows a **3-tier architecture**:  
+
+1. **Frontend**  
+   - Built with **HTML, CSS, and JavaScript**.  
+   - Hosted in the **public subnet** for internet accessibility.  
+
+2. **Backend**  
+   - Built with **Node.js (Express)**.  
+   - Runs in the **public subnet**, communicates with both frontend and database.  
+
+3. **Database**  
+   - **PostgreSQL** hosted in a **private subnet**.  
+   - Accessible only by the backend via a **bastion host** for secure administration.  
+
+## Networking & Security  
+
+- **VPC Setup**:  
+  - Public Subnets → Frontend + Backend.  
+  - Private Subnet → PostgreSQL database.  
+  - Internet Gateway → Allows internet access for public subnets.  
+  - Bastion Host → Provides secure SSH access to the private database.  
+
+- **Security Groups**:  
+  - ALB → Accepts HTTP (80) and HTTPS (443) from the internet.  
+  - Backend → Accepts traffic only from the ALB on port `5000`.  
+  - Database → Accepts traffic only from the backend.  
+
+- **Load Balancing**:  
+  - **Application Load Balancer (ALB)** distributes traffic across **two Availability Zones**, ensuring high availability and reduced latency.  
+  - **Listener Rules**:  
+    - `/` → Forwards to **Frontend Target Group (port 80)**.  
+    - `/api/*` → Forwards to **Backend Target Group (port 5000)**.  
+
+- **Encryption**:  
+  - Provisioned an **SSL/TLS certificate** with **AWS Certificate Manager (ACM)**.  
+  - Application accessible via **HTTPS** (`https://www.finbloom.work.gd`).  
+
+
+## Domain & DNS  
+
+- Domain registered via **Freenom** (`www.finbloom.work.gd`).  
+- CNAME record points to the **ALB DNS name**.  
+- (Alternative: **Route 53** could be used for advanced DNS and security features).  
+
+## Deployment Steps  
+
+### 1️ VPC & Networking  
+- Create a VPC with **public and private subnets** across 2 Availability Zones.  
+- Attach an **Internet Gateway** to allow internet access.  
+- Set up a **NAT Gateway or Bastion Host** for private subnet access.  
+
+### 2️ Database Layer (Private Subnet)  
+- Launch **PostgreSQL** instance in the **private subnet**.  
+- Configure Security Group: allow inbound traffic only from the backend SG.  
+- Connect via **bastion host** for administration.  
+
+### 3️ Backend Layer (Public Subnet)  
+- Launch an EC2 instance for the **Node.js backend**.  
+- Deploy the backend application (port `5000`).  
+- Configure Security Group: allow inbound traffic only from ALB SG.  
+
+### 4️ Frontend Layer (Public Subnet)  
+- Launch an EC2 instance for the **HTML/CSS/JS frontend**.  
+- Configure NGINX/Apache (or serve static files directly).  
+- Security Group: allow inbound traffic only from ALB SG.  
+
+### 5️ Load Balancer & Target Groups  
+- Create an **Application Load Balancer**.  
+- Create **Frontend Target Group (HTTP:80)** and **Backend Target Group (HTTP:5000)**.  
+- Register respective EC2 instances.  
+- Configure **Listeners & Rules**:  
+  - HTTPS (443) → Forward `/` to Frontend TG.  
+  - HTTPS (443) → Forward `/api/*` to Backend TG.  
+
+### 6️ Domain & SSL  
+- Request SSL certificate in **ACM** for your domain.  
+- Attach the cert to the ALB HTTPS listener.  
+- Create a **CNAME record** in Freenom pointing to ALB DNS name.  
+
+### 7️ Verification  
+- Access app via:  
+  - Frontend → `https://www.finbloom.work.gd`  
+  - Backend APIs → `https://www.finbloom.work.gd/api/...`  
+
+## 📸 Screenshots (to be added by you)  
+
+- [ ] VPC and Subnet setup  
+- [ ] Security Group configurations  
+- [ ] Bastion Host access  
+- [ ] EC2 Instances (Frontend & Backend)  
+- [ ] PostgreSQL DB in private subnet  
+- [ ] Application Load Balancer & Target Groups  
+- [ ] HTTPS certificate in ACM  
+- [ ] Application running on `https://www.finbloom.work.gd`  
+
+
+##  AWS Services & Business Impact  
+This project uses multiple AWS services, each with a specific **purpose** and **business impact**:  
+
+- **VPC (Virtual Private Cloud):**  
+  - Purpose: Provides a logically isolated network for the application.  
+  - Impact: Ensures data and workloads are protected, meeting compliance and security standards for businesses.  
+
+- **Subnets (Public & Private):**  
+  - Purpose: Separate resources that require internet access (frontend/backend) from those that should remain private (database).  
+  - Impact: Reduces the attack surface by limiting exposure of sensitive systems like databases.  
+
+- **EC2 (Elastic Compute Cloud):**  
+  - Purpose: Hosts the frontend, backend, and bastion host servers.  
+  - Impact: Offers flexible, scalable compute resources for applications of any size.  
+
+- **RDS PostgreSQL on Private EC2:**  
+  - Purpose: Stores transaction data securely.  
+  - Impact: Protects business-critical data by ensuring it’s not publicly accessible.  
+
+- **Bastion Host:**  
+  - Purpose: Provides secure administrative access to private resources.  
+  - Impact: Prevents direct public access to databases, improving security posture.  
+
+- **Application Load Balancer (ALB):**  
+  - Purpose: Distributes incoming traffic across multiple EC2 instances and routes requests based on path (`/` vs `/api/*`).  
+  - Impact: Improves application availability, reduces latency, and ensures seamless scaling for business continuity.  
+
+- **ACM (AWS Certificate Manager):**  
+  - Purpose: Provides and manages SSL/TLS certificates.  
+  - Impact: Encrypts user data in transit, building customer trust and meeting compliance requirements.  
+
+- **Multi-AZ Deployment:**  
+  - Purpose: Application runs in **two Availability Zones**.  
+  - Impact: Protects against single AZ failures, ensuring higher uptime and reliability.  
+
+- **DNS (Freenom / Route 53):**  
+  - Purpose: Maps human-readable domain names to the ALB endpoint.  
+  - Impact: Gives the business a professional presence and improves brand accessibility.  
+
+
+## Limitations  
+
+- No user authentication system, meaning that transactions are visible to all visitors.  
+- Shared state across sessions since data is not tied to individual users.  
+
+
+##  Tech Stack  
+
+- **Frontend:** HTML, CSS, JavaScript  
+- **Backend:** Node.js (Express)  
+- **Database:** PostgreSQL  
+- **Cloud Provider:** AWS  
+- **Services Used:**  
+  - VPC, EC2, Security Groups, Bastion Host  
+  - Application Load Balancer (ALB)  
+  - Certificate Manager (ACM)  
+  - Route 53 (optional), Freenom (domain)  
+
+##  Future Improvements  
+
+- Implement **user authentication**.  
+- Deploy frontend via **S3 + CloudFront** for scalability.  
+- Add **auto-scaling groups** for backend and frontend.  
+- Use **RDS** instead of EC2-managed PostgreSQL.  
+- Migrate DNS management fully to **Route 53**.  
+
+
+
