@@ -53,7 +53,7 @@ The project follows a **3-tier architecture**:
 
 ## Domain & DNS  
 - Domain registered via **Freenom** (`www.finbloom.work.gd`).
- <img width="1349" height="340" alt="Screenshot 2025-09-14 210216" src="https://github.com/user-attachments/assets/ae726add-ddad-4bb9-87a8-95d38565df50" />
+<img width="1349" height="340" alt="Screenshot 2025-09-14 210216" src="https://github.com/user-attachments/assets/141dfbf1-9323-4117-b272-4127ee690b22" />
 - CNAME record points to the **AWS Application Load Balancer DNS name**.  
 - (Alternative: **Route 53** could be used for advanced DNS and security features).  
 
