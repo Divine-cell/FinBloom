@@ -1,4 +1,4 @@
-# FinBloom – 3-Tier Finance Tracker Web Application  
+<img width="1353" height="331" alt="Screenshot 2025-09-14 181459" src="https://github.com/user-attachments/assets/d31aa101-e6f0-44f1-aee5-69439f28ddf5" /># FinBloom – 3-Tier Finance Tracker Web Application  
 
 A **cloud-deployed 3-tier finance tracker application** that calculates expenditures based on transactions added.  
 This project demonstrates how to **securely and cost-effectively deploy a web application to AWS** using best practices in **networking, security, and availability**.
@@ -62,7 +62,9 @@ The project follows a **3-tier architecture**:
 ### 1️ VPC & Networking  
 - Create a VPC with **public and private subnets** across 2 Availability Zones.  
 - Attach an **Internet Gateway** to allow internet access.  
-- Set up a **Bastion Host** for private subnet access.  
+- Set up a **Bastion Host** for private subnet access.
+<img width="1348" height="469" alt="Screenshot 2025-09-13 185049" src="https://github.com/user-attachments/assets/b993dc9d-ff66-4640-b8d9-72d433cca7ff" />
+
 
 ### 2️ Database Layer (Private Subnet)  
 - Launch **PostgreSQL** instance in the **private subnet**.  
@@ -70,14 +72,17 @@ The project follows a **3-tier architecture**:
 - Connect via **bastion host** for administration.  
 
 ### 3️ Backend Layer (Public Subnet)  
-- Launch an EC2 instance for the **Node.js backend**.  
+- Launch an EC2 instance for the **Node.js backend**.
+ <img width="1353" height="331" alt="Screenshot 2025-09-14 181459" src="https://github.com/user-attachments/assets/2fb58ec1-8503-4bfb-8e1c-b1c89b00df9e" />
 - Deploy the backend application (port `5000`).  
-- Configure Security Group: allow inbound traffic only from ALB SG.  
+- Configure Security Group: allow inbound traffic from Apllications load balnacer Security and RDS security group.  
 
 ### 4️ Frontend Layer (Public Subnet)  
 - Launch an EC2 instance for the **HTML/CSS/JS frontend**.  
-- Configure NGINX/Apache (or serve static files directly).  
-- Security Group: allow inbound traffic only from ALB SG.  
+- Configure NGINX/Apache (or serve static files directly).
+   <img width="1366" height="569" alt="Screenshot 2025-09-14 181703" src="https://github.com/user-attachments/assets/89a656a4-14ba-4830-800f-97ea740d556e" />
+
+- Security Group: allow inbound traffic from the internet.  
 
 ### 5️ Load Balancer & Target Groups  
 - Create an **Application Load Balancer**.  
