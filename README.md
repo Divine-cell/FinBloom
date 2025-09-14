@@ -1,4 +1,4 @@
-<img width="1353" height="331" alt="Screenshot 2025-09-14 181459" src="https://github.com/user-attachments/assets/d31aa101-e6f0-44f1-aee5-69439f28ddf5" /># FinBloom – 3-Tier Finance Tracker Web Application  
+# FinBloom – 3-Tier Finance Tracker Web Application  
 
 A **cloud-deployed 3-tier finance tracker application** that calculates expenditures based on transactions added.  
 This project demonstrates how to **securely and cost-effectively deploy a web application to AWS** using best practices in **networking, security, and availability**.
@@ -52,8 +52,8 @@ The project follows a **3-tier architecture**:
 
 
 ## Domain & DNS  
-
-- Domain registered via **Freenom** (`www.finbloom.work.gd`).  
+- Domain registered via **Freenom** (`www.finbloom.work.gd`).
+  <img width="476" height="111" alt="Screenshot 2025-09-14 210155" src="https://github.com/user-attachments/assets/9e08a69f-bad2-4f53-b041-aa8c7ead63c4" />
 - CNAME record points to the **AWS Application Load Balancer DNS name**.  
 - (Alternative: **Route 53** could be used for advanced DNS and security features).  
 
@@ -66,7 +66,7 @@ The project follows a **3-tier architecture**:
 <img width="1348" height="469" alt="Screenshot 2025-09-13 185049" src="https://github.com/user-attachments/assets/b993dc9d-ff66-4640-b8d9-72d433cca7ff" />
 
 
-### 2️ Database Layer (Private Subnet)  
+### 2️ Database Layer (RDS in a Private Subnet)  
 - Launch **PostgreSQL** instance in the **private subnet**.  
 - Configure Security Group: allow inbound traffic only from the backend SG.  
 - Connect via **bastion host** for administration.  
@@ -81,12 +81,12 @@ The project follows a **3-tier architecture**:
 - Launch an EC2 instance for the **HTML/CSS/JS frontend**.  
 - Configure NGINX/Apache (or serve static files directly).
    <img width="1366" height="569" alt="Screenshot 2025-09-14 181703" src="https://github.com/user-attachments/assets/89a656a4-14ba-4830-800f-97ea740d556e" />
-
 - Security Group: allow inbound traffic from the internet.  
 
 ### 5️ Load Balancer & Target Groups  
 - Create an **Application Load Balancer**.  
-- Create **Frontend Target Group (HTTP:80)** and **Backend Target Group (HTTP:5000)**.  
+- Create **Frontend Target Group (HTTP:80)** and **Backend Target Group (HTTP:5000)**.
+  <img width="1364" height="334" alt="Screenshot 2025-09-14 185359" src="https://github.com/user-attachments/assets/a5481238-6892-4a41-84d7-c13f005cac7f" />
 - Register respective EC2 instances.  
 - Configure **Listeners & Rules**:  
   - HTTPS (443) → Forward `/` to Frontend TG.  
@@ -94,10 +94,9 @@ The project follows a **3-tier architecture**:
 
 ### 6️ Domain & SSL  
 - Request SSL certificate in **ACM** for your domain.
-  
+  <img width="1358" height="383" alt="Screenshot 2025-09-14 210012" src="https://github.com/user-attachments/assets/8dee3119-e3ee-425a-a133-fd3069b1add0" />
 - Attach the cert to the ALB HTTPS listener.  
 - Create a **CNAME record** in Freenom pointing to ALB DNS name.
-  
 <img width="677" height="280" alt="Screenshot 2025-09-12 212226" src="https://github.com/user-attachments/assets/11a425d2-a442-4a69-b2e9-fdd8573f2f4a" />
 
 ### 7️ Verification  
