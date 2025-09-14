@@ -33,15 +33,15 @@ The project follows a **3-tier architecture**:
   - Public Subnets → Frontend + Backend.  
   - Private Subnet → PostgreSQL database.  
   - Internet Gateway → Allows internet access for public subnets.  
-  - Bastion Host → Provides secure SSH access to the private database.  
+  - Bastion Host → Provides secure SSH access to the private database. 
 
 - **Security Groups**:  
-  - ALB → Accepts HTTP (80) and HTTPS (443) from the internet.  
-  - Backend → Accepts traffic only from the ALB on port `5000`.  
-  - Database → Accepts traffic only from the backend.  
+  - Application Load Balancer  Accepts HTTP (80) and HTTPS (443) from the internet.  
+  - Backend accepts traffic from the ALB on port `5000`.  
+  - Database accepts traffic only from the backend.  
 
 - **Load Balancing**:  
-  - **Application Load Balancer (ALB)** distributes traffic across **two Availability Zones**, ensuring high availability and reduced latency.  
+  - **Application Load Balancer ** distributes traffic across **two Availability Zones**, ensuring high availability and reduced latency.  
   - **Listener Rules**:  
     - `/` → Forwards to **Frontend Target Group (port 80)**.  
     - `/api/*` → Forwards to **Backend Target Group (port 5000)**.  
@@ -54,7 +54,7 @@ The project follows a **3-tier architecture**:
 ## Domain & DNS  
 
 - Domain registered via **Freenom** (`www.finbloom.work.gd`).  
-- CNAME record points to the **ALB DNS name**.  
+- CNAME record points to the **AWS Application Load Balancer DNS name**.  
 - (Alternative: **Route 53** could be used for advanced DNS and security features).  
 
 ## Deployment Steps  
@@ -62,7 +62,7 @@ The project follows a **3-tier architecture**:
 ### 1️ VPC & Networking  
 - Create a VPC with **public and private subnets** across 2 Availability Zones.  
 - Attach an **Internet Gateway** to allow internet access.  
-- Set up a **NAT Gateway or Bastion Host** for private subnet access.  
+- Set up a **Bastion Host** for private subnet access.  
 
 ### 2️ Database Layer (Private Subnet)  
 - Launch **PostgreSQL** instance in the **private subnet**.  
@@ -88,25 +88,21 @@ The project follows a **3-tier architecture**:
   - HTTPS (443) → Forward `/api/*` to Backend TG.  
 
 ### 6️ Domain & SSL  
-- Request SSL certificate in **ACM** for your domain.  
+- Request SSL certificate in **ACM** for your domain.
+  
 - Attach the cert to the ALB HTTPS listener.  
-- Create a **CNAME record** in Freenom pointing to ALB DNS name.  
+- Create a **CNAME record** in Freenom pointing to ALB DNS name.
+  
+<img width="677" height="280" alt="Screenshot 2025-09-12 212226" src="https://github.com/user-attachments/assets/11a425d2-a442-4a69-b2e9-fdd8573f2f4a" />
 
 ### 7️ Verification  
 - Access app via:  
   - Frontend → `https://www.finbloom.work.gd`  
   - Backend APIs → `https://www.finbloom.work.gd/api/...`  
 
-## 📸 Screenshots (to be added by you)  
+## Application running on `https://www.finbloom.work.gd` 
 
-- [ ] VPC and Subnet setup  
-- [ ] Security Group configurations  
-- [ ] Bastion Host access  
-- [ ] EC2 Instances (Frontend & Backend)  
-- [ ] PostgreSQL DB in private subnet  
-- [ ] Application Load Balancer & Target Groups  
-- [ ] HTTPS certificate in ACM  
-- [ ] Application running on `https://www.finbloom.work.gd`  
+<img width="1352" height="683" alt="Screenshot 2025-09-13 184727" src="https://github.com/user-attachments/assets/aab7a7b3-3aec-4d5e-8560-cd886e9875cc" />
 
 
 ##  AWS Services & Business Impact  
@@ -165,15 +161,7 @@ This project uses multiple AWS services, each with a specific **purpose** and **
   - VPC, EC2, Security Groups, Bastion Host  
   - Application Load Balancer (ALB)  
   - Certificate Manager (ACM)  
-  - Route 53 (optional), Freenom (domain)  
-
-##  Future Improvements  
-
-- Implement **user authentication**.  
-- Deploy frontend via **S3 + CloudFront** for scalability.  
-- Add **auto-scaling groups** for backend and frontend.  
-- Use **RDS** instead of EC2-managed PostgreSQL.  
-- Migrate DNS management fully to **Route 53**.  
+  - Freenom (domain)  
 
 
 
