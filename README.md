@@ -10,7 +10,9 @@ The goal of this project was not just to build a finance app but to:
 - Gain **hands-on experience** with deploying a 3-tier application on AWS.  
 - Practice **secure network design** with public/private subnets.  
 - Learn **load balancing, HTTPS setup, and DNS management**.  
-- Understand **cost-effective cloud deployment strategies** for businesses.  
+- Understand **cost-effective cloud deployment strategies** for businesses.
+  
+<img width="956" height="838" alt="FinBloom Cloud Architecture" src="https://github.com/user-attachments/assets/c19a4514-9475-4c45-9705-9b7c48978a24" />
 
 ## Architecture Overview  
 The project follows a **3-tier architecture**:  
