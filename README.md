@@ -1,7 +1,7 @@
 # FinBloom – 3-Tier Finance Tracker Web Application  
 
-A **cloud-deployed 3-tier finance tracker application** that calculates expenditures based on transactions added.  
-This project demonstrates how to **securely and cost-effectively deploy a web application to AWS** using best practices in **networking, security, and availability**.
+A 3-tier finance tracker web application that calculates expenditures based on transactions added deployed to cloud.  
+This project demonstrates how to **securely and cost-effectively deploy a web application to AWS** using best practices in **networking, security, and availability** using the AWS console.
 
 ## Purpose of the Project  
 
